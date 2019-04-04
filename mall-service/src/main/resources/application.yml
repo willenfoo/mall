@@ -1,0 +1,10 @@
+server:
+  port: 9000
+
+spring:
+  application:
+    name: mall-service
+  profiles:
+    active: dev
+  main:
+    allow-bean-definition-overriding: true
