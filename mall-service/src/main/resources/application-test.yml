@@ -5,6 +5,22 @@ spring:
     username: root
     password: 123456
 
+  rabbitmq:
+    host: 10.200.28.42
+    port: 5672
+    username: allyes
+    password: allyes123
+    listener:
+      simple:
+        retry:
+          enabled: true
+          initial-interval: 1000
+          # 最大尝试次数
+          max-attempts: 3
+          max-interval: 10000
+          multiplier: 2.0
+          stateless: true
+
  #mybatis
 mybatis-plus:
   mapper-locations: classpath:/mapper/*Mapper.xml

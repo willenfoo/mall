@@ -7,7 +7,6 @@
 <configuration  scan="true" scanPeriod="10 seconds">
 
     <conversionRule conversionWord="msgId" converterClass="org.apache.playframework.logging.MsgIdConvert" />
-    <conversionRule conversionWord="logKeyword" converterClass="org.apache.playframework.logging.LogKeywordConvert" />
 
     <contextName>logback</contextName>
 
@@ -45,7 +44,7 @@
     <conversionRule conversionWord="wEx" converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter" />
     <!-- 彩色日志格式 -->
     <property name="CONSOLE_LOG_PATTERN" value="${CONSOLE_LOG_PATTERN:-%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %msgId %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"/>
-    <property name="LOG_PATTERN" value="%logKeyword %msgId %d{yyyy-MM-dd HH:mm:ss} %level %c:%L - %msg%n"/>
+    <property name="LOG_PATTERN" value="%msgId %d{yyyy-MM-dd HH:mm:ss} %level %c:%L - %msg%n"/>
 
     <!--1. 输出到控制台-->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
