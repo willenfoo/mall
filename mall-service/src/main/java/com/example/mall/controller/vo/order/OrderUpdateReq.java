@@ -1,4 +1,4 @@
-package com.example.mall.controller.admin.order;
+package com.example.mall.controller.vo.order;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

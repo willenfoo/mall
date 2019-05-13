@@ -1,10 +1,7 @@
 package com.example.mall.controller.admin;
 
 import com.baomidou.mybatisplus.extension.api.R;
-import com.example.mall.controller.admin.order.OrderAddReq;
-import com.example.mall.controller.admin.order.OrderListReq;
-import com.example.mall.controller.admin.order.OrderResp;
-import com.example.mall.controller.admin.order.OrderUpdateReq;
+import com.example.mall.controller.vo.order.*;
 import com.example.mall.dto.order.OrderDto;
 import com.example.mall.dto.order.OrderQueryDto;
 import com.example.mall.service.OrderService;

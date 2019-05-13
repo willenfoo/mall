@@ -1,4 +1,4 @@
-package com.example.mall.controller.admin.order;
+package com.example.mall.controller.vo.order;
 
 import lombok.Data;
 

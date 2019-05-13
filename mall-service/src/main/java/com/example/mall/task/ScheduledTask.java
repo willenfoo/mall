@@ -39,7 +39,7 @@ public class ScheduledTask {
             }
         } finally {
             if (count == 1) {
-                //休眠30秒，在分布式下，每台机器相差几秒钟，如果定时器执行很短，会重复执行
+                //休眠40秒，在分布式下，每台机器相差几秒钟，如果定时器执行很短，会重复执行
                 sleep();
                 stringRedisTemplate.delete(lockTaskRedisKey);
             }
@@ -51,7 +51,7 @@ public class ScheduledTask {
      */
     private void sleep() {
         try {
-            Thread.sleep(1000 * 30);
+            Thread.sleep(1000 * 40);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

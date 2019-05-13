@@ -31,14 +31,8 @@ public class OrderController extends BaseController {
     public R<SimpleResult<Boolean>> checkFail(
             @PathVariable("id") String id) {
         Boolean updateFlag = true;
-        rabbitTemplate.convertAndSend("hello", (Object) "ddd", new MessagePostProcessor() {
-            @Override
-            public Message postProcessMessage(Message message) throws AmqpException {
-                message.getMessageProperties().setDelay(15000);
-                return message;
-            }
-        });
-        return successResult(updateFlag);
+        rabbitTemplate.convertAndSend("hello", "ddd");
+         return successResult(updateFlag);
     }
 
 
