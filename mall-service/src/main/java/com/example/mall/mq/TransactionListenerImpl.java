@@ -1,4 +1,4 @@
-package com.example.mall.controller.api;
+package com.example.mall.mq;
 
 import com.baomidou.mybatisplus.dts.DtsMeta;
 import com.baomidou.mybatisplus.dts.listener.IDtsListener;
@@ -9,14 +9,16 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.PlatformTransactionManager;
 
 /**
- * rabbit 消息接收器
+ * rabbitmq 分布式事务监听处理
  *
- * @author jobob
+ * @author fwuei
  * @since 2019-04-21
  */
 @Component
-public class RabbitReceiver implements IDtsListener {
-    public static final Logger logger = LoggerFactory.getLogger(RabbitReceiver.class);
+public class TransactionListenerImpl implements IDtsListener {
+
+    public static final Logger logger = LoggerFactory.getLogger(TransactionListenerImpl.class);
+
     @Autowired
     protected PlatformTransactionManager transactionManager;
 

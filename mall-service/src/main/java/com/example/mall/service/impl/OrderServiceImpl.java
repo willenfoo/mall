@@ -16,7 +16,7 @@ import org.apache.playframework.domain.PagerQuery;
 import org.apache.playframework.domain.PagerResult;
 import org.apache.playframework.util.BeanCopierUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -71,7 +71,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     }
 
     private List<OrderDto> conversion(List<Order> orders) {
-        if (CollectionUtils.isEmpty(orders)) {
+        if (ObjectUtils.isEmpty(orders)) {
             return new ArrayList<>();
         }
         List<OrderDto> orderDtos = new ArrayList<>();
