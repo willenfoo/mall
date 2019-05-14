@@ -4,9 +4,7 @@ import com.baomidou.mybatisplus.dts.DtsMeta;
 import com.baomidou.mybatisplus.dts.listener.IDtsListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.PlatformTransactionManager;
 
 /**
  * rabbitmq 分布式事务监听处理
@@ -19,13 +17,10 @@ public class TransactionListenerImpl implements IDtsListener {
 
     public static final Logger logger = LoggerFactory.getLogger(TransactionListenerImpl.class);
 
-    @Autowired
-    protected PlatformTransactionManager transactionManager;
-
     @Override
     public void process(DtsMeta dtsMeta) {
-        logger.info("Receiving message1: {} with transaction manager: {}",
-                dtsMeta.getPayload(), transactionManager.getClass().getSimpleName());
+        logger.info("分布式事务监听处理, dtsMeta:{}", dtsMeta);
+
         /**
          * 根据 event 处理不同业务逻辑
          */
