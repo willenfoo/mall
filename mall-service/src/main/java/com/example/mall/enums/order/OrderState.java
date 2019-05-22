@@ -3,7 +3,7 @@ package com.example.mall.enums.order;
 import com.baomidou.mybatisplus.core.enums.IEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import org.springframework.util.StringUtils;
+import org.springframework.util.ObjectUtils;
 
 import java.util.Objects;
 
@@ -36,7 +36,7 @@ public enum OrderState implements IEnum<Integer> {
 
     @JsonCreator
     public static OrderState fromValue(Integer value) {
-        if (StringUtils.isEmpty(value)) {
+        if (ObjectUtils.isEmpty(value)) {
             return null;
         }
         for (OrderState item : values()) {
