@@ -2,8 +2,10 @@ package com.example.mall.controller.api;
 
 import com.baomidou.mybatisplus.dts.DtsMeta;
 import com.baomidou.mybatisplus.dts.sender.RabbitRmtSender;
+import com.example.mall.config.RabbitMqConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,16 +21,32 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/rabbit")
 public class RabbitController {
+
     public static final Logger logger = LoggerFactory.getLogger(RabbitController.class);
+
     @Autowired
     protected PlatformTransactionManager transactionManager;
+
     @Autowired
     private RabbitRmtSender rmtSender;
 
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
     @RequestMapping(value = "/send")
     @Transactional
     public String send() {
+
+        //普通消息
+        rabbitTemplate.convertAndSend(RabbitMqConfig.DEFAULT_EXCHANGE, RabbitMqConfig.ORDER_ROUTING_KEY, "ddd");
+
+        //延时消息
+        rabbitTemplate.convertAndSend(RabbitMqConfig.DEFAULT_EXCHANGE, RabbitMqConfig.PAY_ROUTING_KEY, "ccc", message -> {
+            message.getMessageProperties().setDelay(15000);
+            return message;
+        });
+
+        //事务消息
         String event = "Message1: send";
         logger.info("Sending message: {} with transaction manager: {}", event, transactionManager.getClass().getSimpleName());
         rmtSender.send(new DtsMeta().setEvent(event).setPayload("rabbit send"));

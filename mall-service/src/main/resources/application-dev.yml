@@ -10,6 +10,8 @@ spring:
     port: 5672
     username: allyes
     password: allyes123
+    publisher-confirms: true
+    publisher-returns: true
     listener:
       simple:
         retry:
@@ -20,6 +22,8 @@ spring:
           max-interval: 10000
           multiplier: 2.0
           stateless: true
+    template:
+      mandatory: true
 
  #mybatis
 mybatis-plus:
