@@ -34,17 +34,17 @@ public enum OrderState implements IEnum<Integer> {
         return this.desc;
     }
 
-    @JsonCreator
+    @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
     public static OrderState fromValue(Integer value) {
         if (ObjectUtils.isEmpty(value)) {
             return null;
         }
         for (OrderState item : values()) {
-            if (Objects.equals(value, item.getValue())) {
+            if (ObjectUtils.nullSafeEquals(value, item.getValue())) {
                 return item;
             }
         }
-        throw new RuntimeException("根据value找不到对应枚举, value:" + value);
+        throw new RuntimeException(OrderState.class.getSimpleName() + "根据value找不到对应枚举, value:" + value);
     }
 
 }

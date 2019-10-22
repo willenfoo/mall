@@ -1,17 +1,18 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&zeroDateTimeBehavior=convertToNull&serverTimezone=UTC
+    url: jdbc:mysql://127.0.0.1:3306/mall?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&zeroDateTimeBehavior=convertToNull&serverTimezone=UTC
     username: root
     password: 123456
 
   rabbitmq:
-    host: 10.200.28.42
+    host: localhost
     port: 5672
-    username: allyes
-    password: allyes123
-    publisher-confirms: false
-    publisher-returns: false
+    virtual-host: /root_hosts
+    username: root
+    password: 123456
+    publisher-confirms: true
+    publisher-returns: true
     listener:
       simple:
         retry:
@@ -23,7 +24,7 @@ spring:
           multiplier: 2.0
           stateless: true
     template:
-      mandatory: false
+      mandatory: true
 
 
 

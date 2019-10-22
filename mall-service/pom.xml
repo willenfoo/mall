@@ -68,11 +68,11 @@
             <artifactId>mybatis-plus-generator</artifactId>
             <version>3.1.2</version>
         </dependency>
-        <dependency>
+        <!--<dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-dts</artifactId>
             <version>3.1.2</version>
-        </dependency>
+        </dependency>-->
 
         <!-- swagger annotations -->
         <dependency>

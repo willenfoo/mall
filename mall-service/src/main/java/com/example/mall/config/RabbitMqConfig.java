@@ -1,7 +1,9 @@
 package com.example.mall.config;
 
+import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -25,7 +27,6 @@ public class RabbitMqConfig implements RabbitTemplate.ConfirmCallback {
      * 支付完成的路由key
      */
     public static final String PAY_ROUTING_KEY = "pay_routing_key";
-
 
     @Override
     public void confirm(CorrelationData correlationData, boolean ack, String cause) {

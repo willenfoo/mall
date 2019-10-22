@@ -1,6 +1,8 @@
 package com.example.mall.controller.admin;
 
+import com.baomidou.mybatisplus.extension.api.IErrorCode;
 import com.baomidou.mybatisplus.extension.api.R;
+import com.baomidou.mybatisplus.extension.exceptions.ApiException;
 import com.example.mall.controller.vo.order.*;
 import com.example.mall.dto.order.OrderDto;
 import com.example.mall.dto.order.OrderQueryDto;
@@ -27,7 +29,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/enterprise/busiInvoiceLog")
-@Api(value = "enterprise->商户发票申请API", tags = "enterprise->商户发票申请API")
+@Api(value = "admin->商户发票申请API", tags = "admin->商户发票申请API")
 public class AdminOrderController extends BaseController {
 
     @Autowired
@@ -37,6 +39,7 @@ public class AdminOrderController extends BaseController {
     @PostMapping
     public R<SimpleResult<Boolean>> add(@Validated @RequestBody OrderAddReq addReq) {
         OrderDto orderDto = new OrderDto();
+
         BeanUtils.copyProperties(addReq, orderDto);
         Boolean updateFlag = orderService.save(orderDto);
         return successResult(updateFlag);
@@ -66,7 +69,7 @@ public class AdminOrderController extends BaseController {
     @ApiOperation("根据id查询")
     @GetMapping(value = "{id}")
     public R<OrderResp> findById(@PathVariable("id") String id) {
-        OrderDto orderDto = orderService.queryById(id);
+        OrderDto orderDto = orderService.queryDetailById(id);
         OrderResp orderResp = new OrderResp();
         BeanCopierUtils.copyProperties(orderDto, orderResp);
         return success(orderResp);

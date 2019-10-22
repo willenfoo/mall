@@ -21,7 +21,6 @@ import org.springframework.util.ObjectUtils;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * <p>
@@ -36,7 +35,7 @@ import java.util.Objects;
 public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements OrderService {
 
     @Override
-    public Order findById(String id) {
+    public Order queryById(String id) {
         Order order = getById(id);
         if (order == null) {
             throw new ApiException(ExceptionCode.ORDER_NOT_EXIST);
@@ -45,9 +44,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     }
 
     @Override
-    public OrderDto queryById(String id) {
-        Order order = findById(id);
-        return conversion(Arrays.asList(order)).get(0);
+    public OrderDto queryDetailById(String id) {
+        Order order = queryById(id);
+        return transform(Arrays.asList(order)).get(0);
     }
 
     @Override
@@ -58,19 +57,19 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         //索引字段放在前面
 
         queryWrapper.gt(Order::getId, 0);
-        if (Objects.nonNull(queryDto.getCreateTimeStart())) {
+        if (!ObjectUtils.isEmpty(queryDto.getCreateTimeStart())) {
             queryWrapper.ge(Order::getCreateTime, queryDto.getCreateTimeStart());
         }
-        if (Objects.nonNull(queryDto.getCreateTimeEnd())) {
+        if (!ObjectUtils.isEmpty(queryDto.getCreateTimeEnd())) {
             queryWrapper.le(Order::getCreateTime, queryDto.getCreateTimeEnd());
         }
         IPage<Order> iPage = page(new Page(pagerQuery.getCurrent(), pagerQuery.getSize()), queryWrapper);
-        PagerResult<OrderDto> pagerResult = new PagerResult(conversion(iPage.getRecords()), iPage.getTotal());
+        PagerResult<OrderDto> pagerResult = new PagerResult(transform(iPage.getRecords()), iPage.getTotal());
         log.info("订单, 查询列表结束");
         return pagerResult;
     }
 
-    private List<OrderDto> conversion(List<Order> orders) {
+    private List<OrderDto> transform(List<Order> orders) {
         if (ObjectUtils.isEmpty(orders)) {
             return new ArrayList<>();
         }

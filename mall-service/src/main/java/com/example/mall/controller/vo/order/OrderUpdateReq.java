@@ -6,7 +6,7 @@ import lombok.Data;
 import javax.validation.constraints.NotBlank;
 
 @Data
-public class OrderUpdateReq extends SaveCommonReq {
+public class OrderUpdateReq extends CommonAttribute {
 
     /**
      * 备注

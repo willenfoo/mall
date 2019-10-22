@@ -1,17 +1,16 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&zeroDateTimeBehavior=convertToNull&serverTimezone=UTC
+    url: jdbc:mysql://127.0.0.1:3306/mall?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&zeroDateTimeBehavior=convertToNull&serverTimezone=UTC
     username: root
     password: 123456
 
   rabbitmq:
-    host: 10.200.28.42
+    host: localhost
     port: 5672
-    username: allyes
-    password: allyes123
-    publisher-confirms: true
-    publisher-returns: true
+    virtual-host: /root_hosts
+    username: root
+    password: 123456
     listener:
       simple:
         retry:
@@ -22,10 +21,9 @@ spring:
           max-interval: 10000
           multiplier: 2.0
           stateless: true
-    template:
-      mandatory: true
 
- #mybatis
+
+  #mybatis
 mybatis-plus:
   mapper-locations: classpath:/mapper/*Mapper.xml
     #\u5B9E\u4F53\u626B\u63CF\uFF0C\u591A\u4E2Apackage\u7528\u9017\u53F7\u6216\u8005\u5206\u53F7\u5206\u9694

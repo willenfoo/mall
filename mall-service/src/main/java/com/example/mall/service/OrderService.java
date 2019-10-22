@@ -23,14 +23,14 @@ public interface OrderService extends IService<Order> {
      * @param id
      * @return
      */
-    Order findById(String id);
+    Order queryById(String id);
 
     /**
      * 根据id查询，需要返回更多字段，用dto扩展，查询不到会抛出异常
      * @param id
      * @return
      */
-    OrderDto queryById(String id);
+    OrderDto queryDetailById(String id);
 
     /**
      * 分页查询

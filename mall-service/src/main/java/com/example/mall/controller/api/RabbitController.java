@@ -1,7 +1,6 @@
 package com.example.mall.controller.api;
 
-import com.baomidou.mybatisplus.dts.DtsMeta;
-import com.baomidou.mybatisplus.dts.sender.RabbitRmtSender;
+
 import com.example.mall.config.RabbitMqConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,8 +26,7 @@ public class RabbitController {
     @Autowired
     protected PlatformTransactionManager transactionManager;
 
-    @Autowired
-    private RabbitRmtSender rmtSender;
+
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
@@ -49,7 +47,7 @@ public class RabbitController {
         //事务消息
         String event = "Message1: send";
         logger.info("Sending message: {} with transaction manager: {}", event, transactionManager.getClass().getSimpleName());
-        rmtSender.send(new DtsMeta().setEvent(event).setPayload("rabbit send"));
+        //rmtSender.send(new DtsMeta().setEvent(event).setPayload("rabbit send"));
         return String.format("Event sent: %s", event);
     }
 
@@ -58,7 +56,7 @@ public class RabbitController {
     public String sendError() {
         String event = "Message: sendError";
         logger.info("Sending message: {} with transaction manager: {}", event, transactionManager.getClass().getSimpleName());
-        rmtSender.send(new DtsMeta().setEvent(event).setPayload("rabbit send-error"));
+        //rmtSender.send(new DtsMeta().setEvent(event).setPayload("rabbit send-error"));
         throw new RuntimeException("Test exception");
     }
 
@@ -67,7 +65,7 @@ public class RabbitController {
     public String sendReceiveError() {
         String event = "ErrorMessage: sendReceiveError";
         logger.info("Sending message: {} with transaction manager: {}", event, transactionManager.getClass().getSimpleName());
-        rmtSender.send(new DtsMeta().setEvent(event).setPayload("rabbit send-receive-error"));
+        //rmtSender.send(new DtsMeta().setEvent(event).setPayload("rabbit send-receive-error"));
         return String.format("Event sent: %s", event);
     }
 }
