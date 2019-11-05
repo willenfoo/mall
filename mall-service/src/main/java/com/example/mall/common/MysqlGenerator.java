@@ -33,6 +33,12 @@ public class MysqlGenerator {
      * MySQL 生成演示
      */
     public static void main(String[] args) {
+
+        String moduleName = "test";
+        String parent = "com.baomidou";
+        String dir = "D:/develop/" + parent.replaceAll("\\.", "/") + "/" + moduleName;
+
+
         int result = 1;
         // 自定义需要填充的字段
         List<TableFill> tableFillList = new ArrayList<>();
@@ -53,7 +59,7 @@ public class MysqlGenerator {
                     }
                     sb.append(string);
                 }
-                return "D:/develop/com/baomidou/test/dto/"+sb.toString()+"/" + tableInfo.getEntityName() + "Dto.java";
+                return dir + "/dto/"+sb.toString()+"/" + tableInfo.getEntityName() + "DTO.java";
             }
         };
 
@@ -72,7 +78,102 @@ public class MysqlGenerator {
                     }
                     sb.append(string);
                 }
-                return "D:/develop/com/baomidou/test/dto/"+sb.toString()+"/" + tableInfo.getEntityName() + "QueryDto.java";
+                return dir + "/dto/"+sb.toString()+"/" + tableInfo.getEntityName() + "QueryDTO.java";
+            }
+        };
+
+        FileOutConfig commonAttributeOutConfig = new FileOutConfig(
+                "/templates/CommonAttribute.java.ftl") {
+            // 自定义输出文件目录
+            @Override
+            public String outputFile(TableInfo tableInfo) {
+                String[] tableNames = tableInfo.getName().split("_");
+                StringBuffer sb = new StringBuffer();
+                int i = 0;
+                for (String string : tableNames) {
+                    if (i == 0) {
+                        i++;
+                        continue;
+                    }
+                    sb.append(string);
+                }
+                return dir + "/controller/vo/"+sb.toString()+"/CommonAttribute.java";
+            }
+        };
+
+        FileOutConfig entityAddReqOutConfig = new FileOutConfig(
+                "/templates/entityAddReq.java.ftl") {
+            // 自定义输出文件目录
+            @Override
+            public String outputFile(TableInfo tableInfo) {
+                String[] tableNames = tableInfo.getName().split("_");
+                StringBuffer sb = new StringBuffer();
+                int i = 0;
+                for (String string : tableNames) {
+                    if (i == 0) {
+                        i++;
+                        continue;
+                    }
+                    sb.append(string);
+                }
+                return dir + "/controller/vo/"+sb.toString()+"/" + tableInfo.getEntityName() + "AddReq.java";
+            }
+        };
+
+        FileOutConfig entityUpdateReqOutConfig = new FileOutConfig(
+                "/templates/entityUpdateReq.java.ftl") {
+            // 自定义输出文件目录
+            @Override
+            public String outputFile(TableInfo tableInfo) {
+                String[] tableNames = tableInfo.getName().split("_");
+                StringBuffer sb = new StringBuffer();
+                int i = 0;
+                for (String string : tableNames) {
+                    if (i == 0) {
+                        i++;
+                        continue;
+                    }
+                    sb.append(string);
+                }
+                return dir + "/controller/vo/"+sb.toString()+"/" + tableInfo.getEntityName() + "UpdateReq.java";
+            }
+        };
+
+        FileOutConfig entityListReqOutConfig = new FileOutConfig(
+                "/templates/entityListReq.java.ftl") {
+            // 自定义输出文件目录
+            @Override
+            public String outputFile(TableInfo tableInfo) {
+                String[] tableNames = tableInfo.getName().split("_");
+                StringBuffer sb = new StringBuffer();
+                int i = 0;
+                for (String string : tableNames) {
+                    if (i == 0) {
+                        i++;
+                        continue;
+                    }
+                    sb.append(string);
+                }
+                return dir + "/controller/vo/"+sb.toString()+"/" + tableInfo.getEntityName() + "ListReq.java";
+            }
+        };
+
+        FileOutConfig entityRespOutConfig = new FileOutConfig(
+                "/templates/entityResp.java.ftl") {
+            // 自定义输出文件目录
+            @Override
+            public String outputFile(TableInfo tableInfo) {
+                String[] tableNames = tableInfo.getName().split("_");
+                StringBuffer sb = new StringBuffer();
+                int i = 0;
+                for (String string : tableNames) {
+                    if (i == 0) {
+                        i++;
+                        continue;
+                    }
+                    sb.append(string);
+                }
+                return dir + "/controller/vo/"+sb.toString()+"/" + tableInfo.getEntityName() + "Resp.java";
             }
         };
 
@@ -166,8 +267,8 @@ public class MysqlGenerator {
         ).setPackageInfo(
                 // 包配置
                 new PackageConfig()
-                        .setModuleName("test")
-                        .setParent("com.baomidou")// 自定义包路径
+                        .setModuleName(moduleName)
+                        .setParent(parent)// 自定义包路径
                         .setController("controller")// 这里是控制器包名，默认 web
         ).setCfg(
                 // 注入自定义配置，可以在 VM 中使用 cfg.abc 设置的值
@@ -178,7 +279,8 @@ public class MysqlGenerator {
                         map.put("abc", this.getConfig().getGlobalConfig().getAuthor() + "-mp");
                         this.setMap(map);
                     }
-                }.setFileOutConfigList(Arrays.asList(entityDTOOutConfig, entityQueryDTOOutConfig))
+                }.setFileOutConfigList(Arrays.asList(entityDTOOutConfig, entityQueryDTOOutConfig, commonAttributeOutConfig,
+                        entityAddReqOutConfig, entityUpdateReqOutConfig, entityListReqOutConfig, entityRespOutConfig))
         ).setTemplate(
                 // 关闭默认 xml 生成，调整生成 至 根目录
                 new TemplateConfig().setXml(null)

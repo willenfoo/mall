@@ -1,5 +1,5 @@
 <#assign  packageSplit="${package.Entity}"?split(".")/>
-package ${packageSplit[0]}.${packageSplit[1]}.${packageSplit[2]}.dto.${entity?lower_case};
+package ${packageSplit[0]}.${packageSplit[1]}.${packageSplit[2]}.controller.vo.${entity?lower_case};
 
 import lombok.Data;
 
@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
  * @since ${date}
  */
 @Data
-public class ${entity}QueryDTO {
+public class ${entity}ListReq {
 
     /**
      * 创建时间，开始
