@@ -1,4 +1,4 @@
-<#assign  packageSplit="${entity?uncap_first}"/>
+<#assign  entityVariable="${entity?uncap_first}"/>
 package ${package.Controller};
 
 
