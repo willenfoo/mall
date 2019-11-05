@@ -1,3 +1,4 @@
+<#assign  packageSplit="${entity?uncap_first}"/>
 package ${package.Controller};
 
 
@@ -37,12 +38,12 @@ public class ${table.controllerName} {
 
 
     @Autowired
-    private OrderService orderService;
+    private ${entity}Service orderService;
 
     @ApiOperation("新增")
     @PostMapping
-    public R<SimpleResult<Boolean>> add(@Validated @RequestBody OrderAddReq addReq) {
-       OrderDto orderDto = new OrderDto();
+    public R<SimpleResult<Boolean>> add(@Validated @RequestBody ${entity}AddReq addReq) {
+       ${entity}DTO orderDto = new ${entity}Dto();
 
        BeanUtils.copyProperties(addReq, orderDto);
        Boolean updateFlag = orderService.save(orderDto);
@@ -54,7 +55,7 @@ public class ${table.controllerName} {
     public R<SimpleResult<Boolean>> update(
         @PathVariable("id") Long id,
         @Validated @RequestBody OrderUpdateReq updateReq) {
-        OrderDto orderDto = new OrderDto();
+        ${entity}Dto orderDto = new ${entity}Dto();
         orderDto.setId(id);
         BeanUtils.copyProperties(updateReq, orderDto);
         Boolean updateFlag = orderService.updateById(orderDto);
@@ -63,7 +64,7 @@ public class ${table.controllerName} {
 
     @ApiOperation("根据id查询")
     @GetMapping(value = "{id}")
-    public R<OrderResp> findById(@PathVariable("id") String id) {
+    public R<${entity}Resp> findById(@PathVariable("id") String id) {
         OrderDto orderDto = orderService.queryDetailById(id);
         OrderResp orderResp = new OrderResp();
         BeanUtils.copyProperties(orderDto, orderResp);
@@ -72,28 +73,28 @@ public class ${table.controllerName} {
 
    @ApiOperation("查询列表")
    @GetMapping
-   public R<PagerResult<OrderResp>> list(PagerQuery pagerQuery, OrderListReq listReq) {
-       OrderQueryDto queryDto = new OrderQueryDto();
-       BeanUtils.copyProperties(listReq, queryDto);
-       PagerResult<OrderDto> pagerResult = orderService.queryList(pagerQuery, queryDto);
+   public R<PagerResult<${entity}Resp>> list(PagerQuery pagerQuery, ${entity}ListReq listReq) {
+       ${entity}QueryDTO queryDTO = new ${entity}QueryDTO();
+       BeanUtils.copyProperties(listReq, queryDTO);
+       PagerResult<${entity}DTO> pagerResult = orderService.queryList(pagerQuery, queryDTO);
        return successPager(pagerResult, OrderResp.class);
    }
 
    @ApiOperation("查询列表-->导出")
    @GetMapping("export")
-   public void export(OrderListReq listReq) {
+   public void export(${entity}ListReq listReq) {
       PagerQuery pagerQuery = new PagerQuery();
       pagerQuery.setCurrent(1);
       pagerQuery.setSize(50000L);
-      OrderQueryDto queryDto = new OrderQueryDto();
-      BeanUtils.copyProperties(listReq, queryDto);
+      ${entity}QueryDTO queryDTO = new ${entity}QueryDTO();
+      BeanUtils.copyProperties(listReq, queryDTO);
 
-      PagerResult<OrderDto> pagerResult = orderService.queryList(pagerQuery, queryDto);
-      List<OrderDto> list = pagerResult.getRecords();
-      List<OrderResp> orderResps = CollectionUtils.transform(list, new Transformer() {
+      PagerResult<${entity}DTO> pagerResult = orderService.queryList(pagerQuery, queryDTO);
+      List<${entity}DTO> list = pagerResult.getRecords();
+      List<${entity}Resp> orderResps = CollectionUtils.transform(list, new Transformer() {
          @Override
          public Object transform(Object o) {
-         OrderResp orderResp = new OrderResp();
+         ${entity}Resp orderResp = new ${entity}Resp();
          BeanUtils.copyProperties(o, orderResp);
          return orderResp;
          }
@@ -101,31 +102,31 @@ public class ${table.controllerName} {
 
       OutputStream out = null;
       try {
-      //1.设置文件ContentType类型，这样设置，会自动判断下载文件类型
-      response.setContentType("multipart/form-data");
-      //2.设置文件头：最后一个参数是设置下载文件名(假如我们叫a.pdf)
-      response.setHeader("Content-Disposition", initDownloadFileName("打款白名单列表", "xlsx"));
-      out = response.getOutputStream();
+          //1.设置文件ContentType类型，这样设置，会自动判断下载文件类型
+          response.setContentType("multipart/form-data");
+          //2.设置文件头：最后一个参数是设置下载文件名(假如我们叫a.pdf)
+          response.setHeader("Content-Disposition", initDownloadFileName("打款白名单列表", "xlsx"));
+          out = response.getOutputStream();
 
-      ExportParams params = new ExportParams();
-      params.setSheetName("列表");
-      params.setType(ExcelType.XSSF);
-      params.setDictHandler(new ExcelDictHandlerImpl());
-      Workbook workbook = ExcelExportUtil.exportExcel(params, OrderResp.class, orderResps);
-      workbook.write(out);
-    } catch (Exception e) {
-      e.printStackTrace();
-    } finally {
-        if (out != null) {
-           try {
-           out.flush();
-           out.close();
-        } catch (IOException e) {
-        e.printStackTrace();
-        }
-     }
+          ExportParams params = new ExportParams();
+          params.setSheetName("列表");
+          params.setType(ExcelType.XSSF);
+          params.setDictHandler(new ExcelDictHandlerImpl());
+          Workbook workbook = ExcelExportUtil.exportExcel(params, ${entity}Resp.class, orderResps);
+          workbook.write(out);
+      } catch (Exception e) {
+          e.printStackTrace();
+      } finally {
+            if (out != null) {
+               try {
+               out.flush();
+               out.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+       }
+    }
    }
- }
 
 }
 </#if>
