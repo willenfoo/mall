@@ -1,10 +1,6 @@
 package com.example.mall.common;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.annotation.FieldFill;
@@ -19,6 +15,7 @@ import com.baomidou.mybatisplus.generator.config.TemplateConfig;
 import com.baomidou.mybatisplus.generator.config.converts.MySqlTypeConvert;
 import com.baomidou.mybatisplus.generator.config.po.TableFill;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
+import com.baomidou.mybatisplus.generator.config.querys.MySqlQuery;
 import com.baomidou.mybatisplus.generator.config.rules.IColumnType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
@@ -41,6 +38,44 @@ public class MysqlGenerator {
         List<TableFill> tableFillList = new ArrayList<>();
         tableFillList.add(new TableFill("ASDD_SS", FieldFill.INSERT_UPDATE));
 
+        FileOutConfig entityDTOOutConfig = new FileOutConfig(
+                "/templates/entityDTO.java.ftl") {
+            // 自定义输出文件目录
+            @Override
+            public String outputFile(TableInfo tableInfo) {
+                String[] tableNames = tableInfo.getName().split("_");
+                StringBuffer sb = new StringBuffer();
+                int i = 0;
+                for (String string : tableNames) {
+                    if (i == 0) {
+                        i++;
+                        continue;
+                    }
+                    sb.append(string);
+                }
+                return "D:/develop/com/baomidou/test/dto/"+sb.toString()+"/" + tableInfo.getEntityName() + "Dto.java";
+            }
+        };
+
+        FileOutConfig entityQueryDTOOutConfig = new FileOutConfig(
+                "/templates/entityQueryDTO.java.ftl") {
+            // 自定义输出文件目录
+            @Override
+            public String outputFile(TableInfo tableInfo) {
+                String[] tableNames = tableInfo.getName().split("_");
+                StringBuffer sb = new StringBuffer();
+                int i = 0;
+                for (String string : tableNames) {
+                    if (i == 0) {
+                        i++;
+                        continue;
+                    }
+                    sb.append(string);
+                }
+                return "D:/develop/com/baomidou/test/dto/"+sb.toString()+"/" + tableInfo.getEntityName() + "QueryDto.java";
+            }
+        };
+
         // 代码生成器
         AutoGenerator mpg = new AutoGenerator().setGlobalConfig(
                 // 全局配置
@@ -53,6 +88,7 @@ public class MysqlGenerator {
                         .setBaseColumnList(false)// XML columList
                         //.setKotlin(true) 是否生成 kotlin 代码
                         .setAuthor("fuwei")
+                        .setSwagger2(true)
                 // 自定义文件命名，注意 %s 会自动填充表实体属性！
                 // .setEntityName("%sEntity");
                 // .setMapperName("%sDao")
@@ -75,18 +111,31 @@ public class MysqlGenerator {
                                 return super.processTypeConvert(globalConfig, fieldType);
                             }
                         })
+                        .setDbQuery(new MySqlQuery() {
+
+                            /**
+                             * 重写父类预留查询自定义字段<br>
+                             * 这里查询的 SQL 对应父类 tableFieldsSql 的查询字段，默认不能满足你的需求请重写它<br>
+                             * 模板中调用：  table.fields 获取所有字段信息，
+                             * 然后循环字段获取 field.customMap 从 MAP 中获取注入字段如下  NULL 或者 PRIVILEGES
+                             */
+                            @Override
+                            public String[] fieldCustom() {
+                                return new String[]{"NULL", "PRIVILEGES"};
+                            }
+                        })
                         .setDriverName(Driver.class.getName())
                         .setUsername("root")
                         .setPassword("123456")
-                        .setUrl("jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&allowPublicKeyRetrieval=true&useSSL=false&characterEncoding=utf8&serverTimezone=UTC")
+                        .setUrl("jdbc:mysql://127.0.0.1:3306/mall?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&zeroDateTimeBehavior=convertToNull&serverTimezone=UTC")
         ).setStrategy(
                 // 策略配置
                 new StrategyConfig()
                         // .setCapitalMode(true)// 全局大写命名
                         // .setDbColumnUnderline(true)//全局下划线命名
-                        .setTablePrefix(new String[]{"bmd_", "t_"})// 此处可以修改为您的表前缀
+                        .setTablePrefix(new String[]{"t_", "mp_"})// 此处可以修改为您的表前缀
                         .setNaming(NamingStrategy.underline_to_camel)// 表名生成策略
-                        // .setInclude(new String[] { "user" }) // 需要生成的表
+                        .setInclude(new String[] { "t_order" }) // 需要生成的表
                         // .setExclude(new String[]{"test"}) // 排除生成的表
                         // 自定义实体父类
                         // .setSuperEntityClass("com.baomidou.demo.TestEntity")
@@ -107,9 +156,9 @@ public class MysqlGenerator {
                 // .setEntityColumnConstant(true)
                 // 【实体】是否为构建者模型（默认 false）
                 // public User setName(String name) {this.name = name; return this;}
-                .setEntityBuilderModel(false)
+                // .setEntityBuilderModel(true)
                 // 【实体】是否为lombok模型（默认 false）<a href="https://projectlombok.org/">document</a>
-                .setEntityLombokModel(true)
+                // .setEntityLombokModel(true)
                 // Boolean类型字段是否移除is前缀处理
                 // .setEntityBooleanColumnRemoveIsPrefix(true)
                 // .setRestControllerStyle(true)
@@ -129,14 +178,7 @@ public class MysqlGenerator {
                         map.put("abc", this.getConfig().getGlobalConfig().getAuthor() + "-mp");
                         this.setMap(map);
                     }
-                }.setFileOutConfigList(Collections.singletonList(new FileOutConfig(
-                        "/templates/mapper.xml" + ((1 == result) ? ".ftl" : ".vm")) {
-                    // 自定义输出文件目录
-                    @Override
-                    public String outputFile(TableInfo tableInfo) {
-                        return "D:/develop/xml/" + tableInfo.getEntityName() + "Mapper.xml";
-                    }
-                }))
+                }.setFileOutConfigList(Arrays.asList(entityDTOOutConfig, entityQueryDTOOutConfig))
         ).setTemplate(
                 // 关闭默认 xml 生成，调整生成 至 根目录
                 new TemplateConfig().setXml(null)
@@ -147,7 +189,7 @@ public class MysqlGenerator {
                 // .setMapper("...");
                 // .setXml("...");
                 // .setService("...");
-                // .setServiceImpl("...");
+                //.setServiceImpl("src/main/resources/template/serviceImpl.java")
         );
         // 执行生成
         if (1 == result) {

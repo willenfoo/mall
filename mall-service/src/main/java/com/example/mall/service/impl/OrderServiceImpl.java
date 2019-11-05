@@ -14,7 +14,7 @@ import com.example.mall.service.OrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.playframework.domain.PagerQuery;
 import org.apache.playframework.domain.PagerResult;
-import org.apache.playframework.util.BeanCopierUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
@@ -76,7 +76,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         List<OrderDto> orderDtos = new ArrayList<>();
         for (Order order : orders) {
             OrderDto orderDto = new OrderDto();
-            BeanCopierUtils.copyProperties(order, orderDto);
+            BeanUtils.copyProperties(order, orderDto);
             orderDtos.add(orderDto);
         }
         return orderDtos;

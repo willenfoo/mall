@@ -5,11 +5,11 @@
     <parent>
         <artifactId>mall</artifactId>
         <groupId>com.example</groupId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>0.0.1</version>
     </parent>
     <groupId>com.example</groupId>
     <artifactId>mall-service</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
     <name>mall-service</name>
     <description>Demo project for Spring Boot</description>
 
@@ -61,12 +61,12 @@
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>3.1.2</version>
+            <version>3.2.0</version>
         </dependency>
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-generator</artifactId>
-            <version>3.1.2</version>
+            <version>3.2.0</version>
         </dependency>
         <!--<dependency>
             <groupId>com.baomidou</groupId>

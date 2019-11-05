@@ -1,8 +1,6 @@
 package com.example.mall.controller.admin;
 
-import com.baomidou.mybatisplus.extension.api.IErrorCode;
 import com.baomidou.mybatisplus.extension.api.R;
-import com.baomidou.mybatisplus.extension.exceptions.ApiException;
 import com.example.mall.controller.vo.order.*;
 import com.example.mall.dto.order.OrderDto;
 import com.example.mall.dto.order.OrderQueryDto;
@@ -12,7 +10,6 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.playframework.domain.PagerQuery;
 import org.apache.playframework.domain.PagerResult;
 import org.apache.playframework.domain.SimpleResult;
-import org.apache.playframework.util.BeanCopierUtils;
 import org.apache.playframework.web.controller.BaseController;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,7 +68,7 @@ public class AdminOrderController extends BaseController {
     public R<OrderResp> findById(@PathVariable("id") String id) {
         OrderDto orderDto = orderService.queryDetailById(id);
         OrderResp orderResp = new OrderResp();
-        BeanCopierUtils.copyProperties(orderDto, orderResp);
+        BeanUtils.copyProperties(orderDto, orderResp);
         return success(orderResp);
     }
 

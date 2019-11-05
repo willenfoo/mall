@@ -10,11 +10,11 @@ public class OrderQueryDto {
     /**
      * 创建时间，开始
      */
-    private String createTimeStart;
+    private LocalDateTime createTimeStart;
 
     /**
      * 创建时间，结束
      */
-    private String createTimeEnd;
+    private LocalDateTime createTimeEnd;
 
 }
