@@ -1,6 +1,5 @@
 package com.example.mall.controller.api;
 
-
 import com.example.mall.config.RabbitMqConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,8 +24,6 @@ public class RabbitController {
 
     @Autowired
     protected PlatformTransactionManager transactionManager;
-
-
 
     @Autowired
     private RabbitTemplate rabbitTemplate;

@@ -5,8 +5,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.util.ObjectUtils;
 
-import java.util.Objects;
-
 /**
  * 测试枚举
  */

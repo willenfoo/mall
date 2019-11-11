@@ -11,6 +11,7 @@ spring:
     virtual-host: /root_hosts
     username: root
     password: 123456
+    publisher-confirms: true
     listener:
       simple:
         retry:
@@ -50,7 +51,7 @@ mybatis-plus:
   # 原生配置
   configuration:
     map-underscore-to-camel-case: true
-    cache-enabled: false
+    cache-enabled: true
 
 eureka:
   client:
