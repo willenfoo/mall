@@ -62,6 +62,13 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- 敏感属性加密(数据库密码等等) -->
+        <dependency>
+            <groupId>com.github.ulisesbocchio</groupId>
+            <artifactId>jasypt-spring-boot-starter</artifactId>
+            <version>2.1.2</version>
+        </dependency>
+
     </dependencies>
 
     <dependencyManagement>

@@ -8,3 +8,7 @@ spring:
     active: dev
   main:
     allow-bean-definition-overriding: true
+
+jasypt:
+  encryptor:
+    password: ljk
