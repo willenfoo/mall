@@ -12,6 +12,10 @@ spring:
     username: root
     password: 123456
     publisher-confirms: true
+    template:
+      retry:
+        enabled: true
+
     listener:
       simple:
         retry:

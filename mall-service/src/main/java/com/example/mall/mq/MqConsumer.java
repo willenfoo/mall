@@ -17,6 +17,7 @@ public class MqConsumer {
             exchange = @Exchange(value = RabbitMqConfig.DEFAULT_EXCHANGE, delayed = "true"), key = RabbitMqConfig.ORDER_ROUTING_KEY)})
     public void process(String hello) {
         System.out.println("Receiver  : " + hello);
+        throw new RuntimeException("一寸");
     }
 
     @RabbitListener(bindings = {@QueueBinding(value = @Queue(value = "hello_wilenfoo2", durable = "true"),
